@@ -1,29 +1,14 @@
-[app]
-title = ورشة الهدى
-package.name = hudaworkshop
-package.domain = org.hudaworkshop
+# (android.api) رقم الـ API المستهدف
+android.api = 33
 
-source.dir = .
-source.include_exts = py,kv,png,jpg,jpeg,atlas,json,txt,ttf,db,css,js
+# (android.minapi) الحد الأدنى لدعم أجهزة أندرويد
+android.minapi = 24
 
-version = 1.0
+# (android.ndk) إصدار NDK المستقر مع Kivy
+android.ndk = 25b
 
+# (android.ndk_api) يجب أن يكون مساوياً لـ minapi أو أعلى
+android.ndk_api = 24
+
+# (requirements) المتطلبات
 requirements = python3,kivy==2.3.0,flask==3.0.3,pyjnius
-
-orientation = portrait
-fullscreen = 0
-
-android.api = 35
-android.minapi = 23
-android.archs = arm64-v8a
-android.ndk = 26b
-android.accept_sdk_license = True
-
-android.permissions = INTERNET
-
-[buildozer]
-log_level = 2
-warn_on_root = 1
-
-[python-for-android]
-python_version = 3.12
