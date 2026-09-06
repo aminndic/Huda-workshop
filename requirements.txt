@@ -1,0 +1,5 @@
+flask==3.0.3
+kivy==2.3.0
+pyjnius
+buildozer
+cython==0.29.37
