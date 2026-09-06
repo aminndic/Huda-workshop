@@ -35,8 +35,10 @@ jobs:
           unzip \
           openjdk-17-jdk
 
-    - name: Set Java Home
-      run: echo "JAVA_HOME=$JAVA_HOME_17_X64" >> $GITHUB_ENV
+    - name: Clean Old Buildozer Cache (Force Refresh)
+      run: |
+        rm -rf .buildozer
+        rm -rf ~/.buildozer
 
     - name: Install Python Dependencies
       run: |
