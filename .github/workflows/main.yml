@@ -1,26 +1,33 @@
-name: Build Huda Workshop APK
+name: Build Android APK
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-22.04
 
     steps:
-    - name: Checkout Code
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v5
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: "3.11"
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
 
     - name: Install System Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y \
+        sudo apt-get install -y --no-install-recommends \
           build-essential \
           git \
           ffmpeg \
@@ -32,19 +39,13 @@ jobs:
           libtool \
           pkg-config \
           zip \
-          unzip \
-          openjdk-17-jdk
-
-    - name: Clean Old Buildozer Cache (Force Refresh)
-      run: |
-        rm -rf .buildozer
-        rm -rf ~/.buildozer
+          unzip
 
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel
-        pip install "cython<3.0.0"
-        pip install buildozer
+        pip install buildozer kivy Cython
 
     - name: Build with Buildozer
-      run: buildozer -v android debug
+      run: |
+        buildozer android release
