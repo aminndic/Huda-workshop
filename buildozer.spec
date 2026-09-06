@@ -1,11 +1,80 @@
 [app]
-# رفع API إلى 33 و MinAPI إلى 24 لتفادي مشاكل الأذونات والـ Headers
-android.api = 33
-android.minapi = 24
-android.ndk_api = 24
 
-# تحديد إصدار NDK 25b الصريح الذي يعالج مشاكل التجميع مع Kivy
+# (str) Title of your application
+title = Huda Workshop
+
+# (str) Package name (lowercase, no spaces or special characters)
+package.name = hudaworkshop
+
+# (str) Package domain (needed for android/ios packaging)
+package.domain = org.aminndic
+
+# (str) Source code where the main.py live
+source.dir = .
+
+# (list) Source files to include (let empty to include all the files)
+source.include_exts = py,png,jpg,jpeg,kv,atlas,ttf,json,txt
+
+# (list) List of inclusions using pattern matching
+#source.include_patterns = assets/*,images/*.png
+
+# (list) Source files to exclude (let empty to not exclude anything)
+#source.exclude_exts = spec
+
+# (list) List of directory to exclude (let empty to not exclude anything)
+source.exclude_dirs = tests, bin, venv, .venv, .github, .git
+
+# (str) Application versioning
+version = 1.0
+
+# (list) Application requirements
+# comma separated e.g. requirements = sqlite3,kivy
+requirements = python3,kivy
+
+# (str) Presplash of the application
+#presplash.filename = %(source.dir)s/data/presplash.png
+
+# (str) Icon of the application
+#icon.filename = %(source.dir)s/data/icon.png
+
+# (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
+orientation = portrait
+
+# (bool) Indicate if the application should be fullscreen or not
+fullscreen = 0
+
+# (list) Permissions
+android.permissions = INTERNET
+
+# (int) Target Android API, should be as high as possible.
+android.api = 33
+
+# (int) Minimum API your APK / AAB will support.
+android.minapi = 21
+
+# (str) Android NDK version to use
 android.ndk = 25b
 
-# المتطلبات الأساسية
-requirements = python3,kivy==2.3.0,flask==3.0.3,pyjnius
+# (bool) Use --private data storage (True) or --dir public storage (False)
+#android.private_storage = True
+
+# (str) The Android arch to build for
+android.archs = arm64-v8a, armeabi-v7a
+
+# (bool) enables Android auto backup feature (Android API >=23)
+android.allow_backup = True
+
+# (int) Log level for buildozer (2 = debug, 1 = info)
+log_level = 2
+
+# (int) Display warning if buildozer is run as root
+warn_on_root = 1
+
+
+[buildozer]
+
+# (int) Log level for buildozer output
+log_level = 2
+
+# (int) Display warning if buildozer is run as root
+warn_on_root = 1
