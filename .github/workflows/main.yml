@@ -1,83 +1,59 @@
-[app]
+name: Build Huda Workshop Offline APK
 
-# (str) Title of your application
-title = Huda Workshop
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
 
-# (str) Package name (lowercase, no spaces or special characters)
-package.name = hudaworkshop
+jobs:
+  build:
+    runs-on: ubuntu-22.04
 
-# (str) Package domain (needed for android/ios packaging)
-package.domain = org.aminndic
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-# (str) Source code where the main.py live
-source.dir = .
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
 
-# (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,jpeg,kv,atlas,ttf,json,txt
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            openjdk-17-jdk \
+            autoconf \
+            automake \
+            libtool \
+            pkg-config \
+            zlib1g-dev \
+            libncurses5-dev \
+            libncursesw5-dev \
+            cmake \
+            unzip
 
-# (list) List of inclusions using pattern matching
-#source.include_patterns = assets/*,images/*.png
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install buildozer "cython==0.29.37"
+          pip install python-for-android==2024.1.21
 
-# (list) Source files to exclude (let empty to not exclude anything)
-#source.exclude_exts = spec
+      - name: Check environment
+        run: |
+          python --version
+          python -c "import sys; print(sys.executable)"
+          java -version
+          buildozer --version
+          p4a --version
 
-# (list) List of directory to exclude (let empty to not exclude anything)
-source.exclude_dirs = tests, bin, venv, .venv, .github, .git
+      - name: Build APK
+        run: |
+          yes | buildozer android debug
 
-# (str) Application versioning
-version = 1.0
-
-# (list) Application requirements
-# comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy
-
-# (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/presplash.png
-
-# (str) Icon of the application
-#icon.filename = %(source.dir)s/data/icon.png
-
-# (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
-orientation = portrait
-
-# (bool) Indicate if the application should be fullscreen or not
-fullscreen = 0
-
-# (list) Permissions
-android.permissions = INTERNET
-
-# (int) Target Android API, should be as high as possible.
-android.api = 33
-
-# (int) Minimum API your APK / AAB will support.
-android.minapi = 21
-
-# (str) Android NDK version to use
-android.ndk = 25b
-
-# (bool) Automatically accept Android SDK licenses (needed for CI, no interactive prompt)
-android.accept_sdk_license = True
-
-# (bool) Use --private data storage (True) or --dir public storage (False)
-#android.private_storage = True
-
-# (str) The Android arch to build for
-android.archs = arm64-v8a, armeabi-v7a
-
-# (bool) enables Android auto backup feature (Android API >=23)
-android.allow_backup = True
-
-# (int) Log level for buildozer (2 = debug, 1 = info)
-log_level = 2
-
-# (int) Display warning if buildozer is run as root
-warn_on_root = 1
-
-
-[buildozer]
-
-# (int) Log level for buildozer output
-log_level = 2
-
-# (int) Display warning if buildozer is run as root
-warn_on_root = 1
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: huda-workshop-offline-apk
+          path: bin/*.apk
