@@ -1,5 +1,5 @@
 [app]
-
+android.accept_sdk_license = True
 # (str) Title of your application
 title = Huda Workshop
 
