@@ -11,8 +11,7 @@ source.exclude_dirs = tests,bin,venv,.venv,.github,.git
 
 version = 1.0
 
-requirements = python3==3.12.10,hostpython3==3.12.10,kivy==2.3.0,flask==3.0.3,pyjnius
-
+requirements = python3==3.12.10,kivy==2.3.0,flask==3.0.3,pyjnius
 orientation = portrait
 fullscreen = 0
 
